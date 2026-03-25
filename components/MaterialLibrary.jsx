@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
-import api from '../services/api';
+import api, { BASE_URL } from '../services/api';
 
 export const MaterialViewer = ({ material, onClose }) => {
     const getYouTubeEmbedUrl = (url) => {
@@ -15,9 +15,8 @@ export const MaterialViewer = ({ material, onClose }) => {
     const isYouTube = material.type === 'YOUTUBE' || (material.type === 'VIDEO' && (material.url.includes('youtube.com') || material.url.includes('youtu.be')));
     const embedUrl = isYouTube ? getYouTubeEmbedUrl(material.url) : null;
     
-    // Construct robust file URL relative to current host if possible, or fallback to backend port
-    const backendBase = `${window.location.protocol}//${window.location.hostname}:8110`;
-    const fileUrl = material.url.startsWith('http') ? material.url : `${backendBase}${material.url}`;
+    // Use the centralized BASE_URL from our api service
+    const fileUrl = material.url.startsWith('http') ? material.url : `${BASE_URL}${material.url}`;
 
     return (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/90 backdrop-blur-sm animate-in fade-in duration-300" onClick={onClose}>
