@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import StudentResults from './StudentResults';
 import QuizTaking from './QuizTaking';
 import MyProfile from './MyProfile';
+import MaterialLibrary from './MaterialLibrary';
 import api from '../services/api';
 
 const StudentDashboard = ({ user, assessments, submissions, onStartQuiz, onQuizStateChange, onLogout, onRefresh }) => {
@@ -12,7 +13,10 @@ const StudentDashboard = ({ user, assessments, submissions, onStartQuiz, onQuizS
 
   const mySubmissions = submissions || [];
   const myResults = (submissions || []).filter(s => s.status !== 'IN_PROGRESS');
-  const availableAssessments = (assessments || []).filter(a => a.status === 'PUBLISHED');
+  const availableAssessments = (assessments || [])
+    .filter(a => a.status === 'PUBLISHED')
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 4);
 
   const avgScore = myResults.length > 0
     ? (myResults.reduce((s, b) => s + (parseFloat(b.teacherOverrideScore ?? b.score) || 0), 0) / myResults.length * 10).toFixed(0)
@@ -74,7 +78,37 @@ const StudentDashboard = ({ user, assessments, submissions, onStartQuiz, onQuizS
             Student Portal · {user.department || 'General Education'}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          {/* Identity Badge: Roll Number */}
+          {user.rollNumber && (
+            <div className="px-4 py-2.5 rounded-2xl flex items-center gap-2.5 shadow-sm border"
+                 style={{ background: 'rgb(var(--bg-card))', borderColor: 'rgb(var(--border))' }}>
+              <i className="fas fa-id-card text-xs" style={{ color: 'rgb(var(--primary))' }} />
+              <span className="text-xs font-black uppercase tracking-widest" style={{ color: 'rgb(var(--text-primary))' }}>
+                {user.rollNumber}
+              </span>
+            </div>
+          )}
+          {/* Identity Badge: Department */}
+          {user.department && (
+            <div className="px-4 py-2.5 rounded-2xl flex items-center gap-2.5 shadow-sm border"
+                 style={{ background: 'rgb(var(--bg-card))', borderColor: 'rgb(var(--border))' }}>
+              <i className="fas fa-building text-xs" style={{ color: 'rgb(var(--primary))' }} />
+              <span className="text-xs font-black uppercase tracking-widest" style={{ color: 'rgb(var(--text-primary))' }}>
+                {user.department}
+              </span>
+            </div>
+          )}
+          {/* Identity Badge: Faculty Head */}
+          {user.facultyHead && (
+            <div className="px-4 py-2.5 rounded-2xl flex items-center gap-2.5 shadow-sm border"
+                 style={{ background: 'rgb(var(--bg-card))', borderColor: 'rgb(var(--border))' }}>
+              <i className="fas fa-chalkboard-teacher text-xs" style={{ color: 'rgb(var(--primary))' }} />
+              <span className="text-xs font-black uppercase tracking-widest" style={{ color: 'rgb(var(--text-primary))' }}>
+                {user.facultyHead?.name || 'Faculty'}
+              </span>
+            </div>
+          )}
           <div className="px-5 py-3 rounded-2xl flex items-center gap-3 shadow-sm border" 
                style={{ background: 'rgb(var(--bg-card))', borderColor: 'rgb(var(--border))' }}>
             <i className="fas fa-circle text-[8px] animate-pulse" style={{ color: 'rgb(var(--primary))' }} />
@@ -89,6 +123,7 @@ const StudentDashboard = ({ user, assessments, submissions, onStartQuiz, onQuizS
       <div className="tab-bar no-scrollbar overflow-x-auto">
         {[
           { id: 'overview', label: 'Dashboard', icon: 'fa-th-large' },
+          { id: 'library', label: 'Learning Library', icon: 'fa-book-open' },
           { id: 'results', label: 'Performance', icon: 'fa-chart-line' },
           { id: 'profile', label: 'My Profile', icon: 'fa-user-circle' },
         ].map(tab => (
@@ -158,7 +193,24 @@ const StudentDashboard = ({ user, assessments, submissions, onStartQuiz, onQuizS
                                 <i className="fas fa-brain text-indigo-500/20 group-hover:text-indigo-500/40 transition-colors text-2xl" />
                              </div>
                              <h4 className="text-lg font-black leading-tight mb-2" style={{ color: 'rgb(var(--text-primary))' }}>{a.title}</h4>
-                             <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-6">{a.topic}</p>
+                             <p className="text-xs font-bold uppercase tracking-widest opacity-60 mb-2">{a.topic}</p>
+                             {/* Teacher & Subject Info */}
+                             <div className="flex flex-wrap items-center gap-2 mb-4">
+                               {a.createdBy?.name && (
+                                 <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-lg"
+                                       style={{ background: 'rgb(var(--primary-bg))', color: 'rgb(var(--primary))' }}>
+                                   <i className="fas fa-chalkboard-teacher text-[9px]" />
+                                   {a.createdBy.name}
+                                 </span>
+                               )}
+                               {a.department && (
+                                 <span className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-lg"
+                                       style={{ background: 'rgb(var(--bg-surface))', color: 'rgb(var(--text-muted))' }}>
+                                   <i className="fas fa-building text-[9px]" />
+                                   {a.department}
+                                 </span>
+                               )}
+                             </div>
                           </div>
                           
                           <button
@@ -212,6 +264,12 @@ const StudentDashboard = ({ user, assessments, submissions, onStartQuiz, onQuizS
                  </div>
               </div>
             </div>
+          </div>
+        )}
+
+        {activeTab === 'library' && (
+          <div className="animate-fadeUp">
+            <MaterialLibrary user={user} ownOnly={false} />
           </div>
         )}
 
