@@ -71,7 +71,7 @@
     *, *::before, *::after { box-sizing: border-box; }
 
     html {
-        font-size: 18px; /* Boosted root font size as requested */
+        font-size: 16px; /* Standard root font size — fits properly at 100% zoom */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         scroll-behavior: smooth;

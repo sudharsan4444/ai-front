@@ -8,6 +8,7 @@ const Landing = ({ onLogin }) => {
   const [name, setName] = useState('');
   const [role, setRole] = useState('STUDENT');
   const [department, setDepartment] = useState('Computer Science');
+  const [year, setYear] = useState(new Date().getFullYear());
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +29,7 @@ const Landing = ({ onLogin }) => {
       if (isLogin) {
         data = await authService.login(email, password);
       } else {
-        data = await authService.register({ name, email, password, role, department });
+        data = await authService.register({ name, email, password, role, department, year });
       }
       onLogin(data);
     } catch (err) {
@@ -298,6 +299,30 @@ const Landing = ({ onLogin }) => {
                           ))}
                         </select>
                       </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Year - signup only for students */}
+                {!isLogin && role === 'STUDENT' && (
+                  <div>
+                    <label className="block font-bold text-gray-700 mb-2" style={{ fontSize: '0.875rem' }}>Admission Year</label>
+                    <div className="relative">
+                      <i className="fas fa-calendar-alt absolute left-4 top-1/2 -translate-y-1/2 text-indigo-400" style={{ fontSize: '0.875rem' }} />
+                      <select className="w-full outline-none appearance-none font-semibold cursor-pointer"
+                        style={{
+                          paddingLeft: '2.75rem', paddingRight: '1rem', paddingTop: '0.875rem', paddingBottom: '0.875rem',
+                          background: 'white', border: '2px solid #e5e7eb', borderRadius: '0.875rem',
+                          fontSize: '0.875rem', color: '#111827'
+                        }}
+                        onFocus={e => e.target.style.borderColor = '#6366f1'}
+                        onBlur={e => e.target.style.borderColor = '#e5e7eb'}
+                        value={year} onChange={e => setYear(Number(e.target.value))}>
+                        {[...Array(5)].map((_, i) => {
+                          const y = new Date().getFullYear() - i;
+                          return <option key={y} value={y}>{y}</option>;
+                        })}
+                      </select>
                     </div>
                   </div>
                 )}

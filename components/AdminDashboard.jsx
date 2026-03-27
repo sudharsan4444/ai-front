@@ -144,6 +144,14 @@ const AdminDashboard = ({ user, assessments, submissions, onLogout, onRefresh, o
   const allStudents = users.filter(u => u.role === 'STUDENT');
   const allDepts = Array.from(new Set([...users.map(u => u.department).filter(d => d)])).sort();
 
+  const STANDARD_DEPARTMENTS = [
+    'Computer Science', 'Electronics', 'Electrical & Electronics',
+    'Mechanical', 'Civil', 'AI&DataScience', 'AI&MachineLearning',
+    'Information Technology', 'Data Science', 'Automobile Engineering',
+    'Aerospace Engineering', 'Biotechnology', 'Chemical Engineering'
+  ];
+  const allDeptOptions = Array.from(new Set([...STANDARD_DEPARTMENTS, ...allDepts])).sort();
+
   const EditUserModal = () => {
     if (!editingUser) return null;
     return (
@@ -174,9 +182,17 @@ const AdminDashboard = ({ user, assessments, submissions, onLogout, onRefresh, o
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest opacity-60">Department</label>
-                <select className="input-field" value={editingUser.department} onChange={e => setEditingUser({ ...editingUser, department: e.target.value })}>
-                  {allDepts.map(d => <option key={d} value={d}>{d}</option>)}
-                </select>
+                <input 
+                  type="text" 
+                  list="dept-list-edit" 
+                  className="input-field" 
+                  placeholder="Type or select department..." 
+                  value={editingUser.department || ''} 
+                  onChange={e => setEditingUser({ ...editingUser, department: e.target.value })} 
+                />
+                <datalist id="dept-list-edit">
+                  {allDeptOptions.map(d => <option key={d} value={d} />)}
+                </datalist>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest opacity-60">Account Role</label>
@@ -268,7 +284,7 @@ const AdminDashboard = ({ user, assessments, submissions, onLogout, onRefresh, o
               </div>
               <div className="card p-6 bg-slate-50 dark:bg-slate-800/40 border-none text-center">
                 <p className="text-xs font-black uppercase tracking-widest opacity-60 mb-2">Primary Domain</p>
-                <p className="text-base font-black truncate">{Array.isArray(selectedTeacher.subjects) ? selectedTeacher.subjects[0] : 'General Ed'}</p>
+                <p className="text-base font-black truncate">{selectedTeacher.department || 'Unassigned'}</p>
               </div>
             </div>
 
@@ -369,7 +385,7 @@ const AdminDashboard = ({ user, assessments, submissions, onLogout, onRefresh, o
                style={{ background: 'rgb(var(--bg-card))', borderColor: 'rgb(var(--border))' }}>
             <i className="fas fa-shield-alt text-[10px]" style={{ color: 'rgb(var(--primary))' }} />
               <span className="text-[10px] font-semibold uppercase tracking-wider" style={{ color: 'rgb(var(--text-muted))' }}>
-                {user?.role} · {user?.role === 'STUDENT' ? (user?.rollNumber || 'REF-N/A') : (user?.department?.split(' ')[0] || 'Global')}
+                {user?.role} · {user?.department || 'System Admin'}
               </span>
           </div>
         </div>
@@ -524,15 +540,18 @@ const AdminDashboard = ({ user, assessments, submissions, onLogout, onRefresh, o
                         </div>
                         <div className="space-y-2">
                            <label className="text-[10px] font-black uppercase tracking-widest opacity-60">Department Assignment</label>
-                           <select required className="input-field" value={newUser.department} onChange={e => setNewUser({...newUser, department: e.target.value})}>
-                              <option value="">Select Domain...</option>
-                              <option value="Computer Science">Computer Science</option>
-                              <option value="Electronics">Electronics</option>
-                              <option value="Mechanical">Mechanical</option>
-                              <option value="Civil">Civil</option>
-                              <option value="AI&DataScience">AI&DataScience</option>
-                              <option value="Information Technology">Information Technology</option>
-                           </select>
+                           <input 
+                             type="text" 
+                             list="dept-list-create" 
+                             required 
+                             className="input-field" 
+                             placeholder="Type or select department..."
+                             value={newUser.department} 
+                             onChange={e => setNewUser({...newUser, department: e.target.value})} 
+                           />
+                           <datalist id="dept-list-create">
+                             {allDeptOptions.map(d => <option key={d} value={d} />)}
+                           </datalist>
                         </div>
                      </div>
                      {newUser.role === 'TEACHER' && (

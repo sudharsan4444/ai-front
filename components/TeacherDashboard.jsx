@@ -151,7 +151,7 @@ const TeacherDashboard = ({ user, assessments, submissions, onAddAssessment, onU
                style={{ background: 'rgb(var(--bg-card))', borderColor: 'rgb(var(--border))' }}>
             <i className="fas fa-circle text-[8px] animate-pulse" style={{ color: 'rgb(var(--primary))' }} />
             <span className="text-xs font-black uppercase tracking-widest" style={{ color: 'rgb(var(--text-primary))' }}>
-              Instructor Live
+              {user.department || 'Faculty'} · Active
             </span>
           </div>
         </div>
@@ -308,6 +308,7 @@ const TeacherDashboard = ({ user, assessments, submissions, onAddAssessment, onU
                     <tr>
                       <th>Status</th>
                       <th>Narrative</th>
+                      <th>Created By</th>
                       <th>Cohort Submissions</th>
                       <th className="text-right">Operations</th>
                     </tr>
@@ -326,11 +327,22 @@ const TeacherDashboard = ({ user, assessments, submissions, onAddAssessment, onU
                               {a.status || 'DRAFT'}
                             </span>
                           </td>
-                          <td className="min-w-[300px]">
+                          <td className="min-w-[250px]">
                             <p className="font-bold text-lg mb-1" style={{ color: 'rgb(var(--text-primary))' }}>{a.title}</p>
                             <div className="flex gap-4 text-[11px] font-black uppercase tracking-wider" style={{ color: 'rgb(var(--text-faint))' }}>
                               <span><i className="fas fa-layer-group mr-1" /> {a.topic}</span>
                               <span><i className="fas fa-calendar-alt mr-1" /> {new Date(a.createdAt).toLocaleDateString()}</span>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="flex items-center gap-2">
+                              <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold"
+                                   style={{ background: 'rgb(var(--primary-bg))', color: 'rgb(var(--primary))' }}>
+                                {a.createdBy?.name?.[0] || 'T'}
+                              </div>
+                              <span className="text-sm font-bold" style={{ color: 'rgb(var(--text-secondary))' }}>
+                                {a.createdBy?.name || 'Unknown'}
+                              </span>
                             </div>
                           </td>
                           <td>

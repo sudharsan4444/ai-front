@@ -186,18 +186,18 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
   if (phase === PHASE.READY) {
     return (
       <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[200] flex items-center justify-center p-4">
-        <div className="bg-white max-w-xl w-full p-1 rounded-[3rem] shadow-2xl overflow-hidden border border-white/20">
-          <div className="bg-white p-10 space-y-8 rounded-[2.9rem]">
+        <div className="bg-white max-w-lg w-full p-1 rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20">
+          <div className="bg-white p-8 space-y-6 rounded-[2.4rem]">
             <div className="text-center">
-              <div className="w-20 h-20 bg-indigo-600 text-white rounded-[1.5rem] flex items-center justify-center mx-auto mb-6 shadow-xl shadow-indigo-200 rotate-3">
-                <i className="fas fa-shield-halved text-3xl"></i>
+              <div className="w-16 h-16 bg-indigo-600 text-white rounded-xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-indigo-200 rotate-3">
+                <i className="fas fa-shield-halved text-2xl"></i>
               </div>
-              <h2 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">{assessment.title}</h2>
+              <h2 className="text-2xl font-black text-slate-900 mb-2 tracking-tight">{assessment.title}</h2>
               <p className="text-slate-400 font-bold uppercase tracking-[0.2em] text-[10px]">Academic Integrity Protocol • {totalQ} Items • {Math.round(totalTime / 60)}m</p>
             </div>
 
-            <div className="bg-slate-50 border border-slate-100 rounded-3xl p-8 space-y-4">
-              <p className="font-black text-indigo-600 text-[10px] uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
+            <div className="bg-slate-50 border border-slate-100 rounded-2xl p-6 space-y-3">
+              <p className="font-black text-indigo-600 text-[10px] uppercase tracking-[0.3em] mb-3 flex items-center gap-2">
                 <i className="fas fa-microchip"></i> System Constraints
               </p>
               {[
@@ -208,18 +208,18 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
                 'All capture & input buffers are restricted.',
                 'AI Assistant support is deactivated.',
               ].map((rule, i) => (
-                <div key={i} className="flex items-start gap-4 p-2 rounded-xl">
-                  <i className="fas fa-check-circle text-emerald-500 mt-1 shrink-0 text-sm"></i>
+                <div key={i} className="flex items-start gap-3 p-1.5 rounded-xl">
+                  <i className="fas fa-check-circle text-emerald-500 mt-0.5 shrink-0 text-xs"></i>
                   <p className="text-sm text-slate-600 font-bold leading-relaxed">{rule}</p>
                 </div>
               ))}
             </div>
 
-            <div className="flex gap-4 pt-4">
-              <button onClick={onCancel} className="flex-1 py-5 rounded-2xl bg-slate-100 text-slate-500 font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all">
+            <div className="flex gap-3 pt-2">
+              <button onClick={onCancel} className="flex-1 py-4 rounded-xl bg-slate-100 text-slate-500 font-black text-sm uppercase tracking-widest hover:bg-slate-200 transition-all">
                 Cancel
               </button>
-              <button onClick={() => setPhase(PHASE.CONFIRM)} className="flex-[2] py-5 rounded-2xl bg-indigo-600 text-white font-black text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 flex items-center justify-center gap-3">
+              <button onClick={() => setPhase(PHASE.CONFIRM)} className="flex-[2] py-4 rounded-xl bg-indigo-600 text-white font-black text-base hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 flex items-center justify-center gap-2">
                 <i className="fas fa-lock"></i> Initialize Security
               </button>
             </div>
@@ -233,16 +233,16 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
   if (phase === PHASE.CONFIRM) {
     return (
       <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xl z-[200] flex items-center justify-center p-4">
-        <div className="bg-white max-w-sm w-full p-1 rounded-[3rem] shadow-2xl overflow-hidden border border-white/20">
-          <div className="bg-white p-12 text-center space-y-8 rounded-[2.9rem]">
-            <div className="w-24 h-24 bg-emerald-50 rounded-full flex items-center justify-center mx-auto border border-emerald-100">
-              <i className="fas fa-bolt-lightning text-emerald-500 text-4xl animate-pulse"></i>
+        <div className="bg-white max-w-sm w-full p-1 rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20">
+          <div className="bg-white p-10 text-center space-y-6 rounded-[2.4rem]">
+            <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto border border-emerald-100">
+              <i className="fas fa-bolt-lightning text-emerald-500 text-3xl animate-pulse"></i>
             </div>
-            <div className="space-y-3">
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">Environment Lock</h2>
+            <div className="space-y-2">
+              <h2 className="text-xl font-black text-slate-900 tracking-tight">Environment Lock</h2>
               <p className="text-slate-500 font-medium text-sm">The browser will now transition to secure assessment mode.</p>
             </div>
-            <button onClick={startQuiz} className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black text-lg hover:bg-black transition-all shadow-xl flex items-center justify-center gap-3">
+            <button onClick={startQuiz} className="w-full py-4 bg-slate-900 text-white rounded-xl font-black text-base hover:bg-black transition-all shadow-xl flex items-center justify-center gap-3">
                Start Assessment
             </button>
             <button onClick={() => setPhase(PHASE.READY)} className="w-full text-slate-400 font-black text-[10px] uppercase tracking-widest hover:text-slate-900 transition-colors">
@@ -258,24 +258,24 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
   if (phase === PHASE.SUBMIT_CONFIRM) {
     return (
       <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-[210] flex items-center justify-center p-4">
-        <div className="bg-white max-w-sm w-full p-1 rounded-[3rem] shadow-2xl overflow-hidden border border-white/20">
-          <div className="bg-white p-12 text-center space-y-10 rounded-[2.9rem]">
-            <div className="w-24 h-24 bg-indigo-50 rounded-full flex items-center justify-center mx-auto border border-indigo-100">
-              <i className="fas fa-cloud-arrow-up text-indigo-600 text-4xl"></i>
+        <div className="bg-white max-w-sm w-full p-1 rounded-[2.5rem] shadow-2xl overflow-hidden border border-white/20">
+          <div className="bg-white p-10 text-center space-y-8 rounded-[2.4rem]">
+            <div className="w-20 h-20 bg-indigo-50 rounded-full flex items-center justify-center mx-auto border border-indigo-100">
+              <i className="fas fa-cloud-arrow-up text-indigo-600 text-3xl"></i>
             </div>
-            <div className="space-y-4">
-              <h2 className="text-2xl font-black text-slate-900 tracking-tight">Sync Progress</h2>
-              <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100 mx-auto w-fit px-12">
-                <p className="text-5xl font-black text-slate-900">{answeredCount}<span className="text-slate-300 text-2xl font-bold"> / {totalQ}</span></p>
+            <div className="space-y-3">
+              <h2 className="text-xl font-black text-slate-900 tracking-tight">Sync Progress</h2>
+              <div className="bg-slate-50 p-5 rounded-2xl border border-slate-100 mx-auto w-fit px-10">
+                <p className="text-4xl font-black text-slate-900">{answeredCount}<span className="text-slate-300 text-xl font-bold"> / {totalQ}</span></p>
                 <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] mt-2">Packets Prepared</p>
               </div>
             </div>
             {answeredCount < totalQ && (
-              <p className="text-amber-600 text-[10px] font-black uppercase tracking-widest bg-amber-50 p-4 rounded-2xl border border-amber-100">
+              <p className="text-amber-600 text-[10px] font-black uppercase tracking-widest bg-amber-50 p-3 rounded-xl border border-amber-100">
                 <i className="fas fa-exclamation-triangle mr-2"></i> {totalQ - answeredCount} items are incomplete.
               </p>
             )}
-            <button onClick={() => handleFinalSubmit()} disabled={isSubmitting} className="w-full py-5 bg-indigo-600 text-white rounded-2xl font-black text-lg hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100 group">
+            <button onClick={() => handleFinalSubmit()} disabled={isSubmitting} className="w-full py-4 bg-indigo-600 text-white rounded-xl font-black text-base hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-100 group">
               {isSubmitting ? <><i className="fas fa-circle-notch fa-spin mr-2"></i>Uploading...</> : <><i className="fas fa-check-circle mr-2 group-hover:scale-110 transition-transform"></i> Finalize Submission</>}
             </button>
             <button onClick={() => setPhase(PHASE.QUIZ)} className="w-full text-slate-400 font-black text-[10px] uppercase tracking-widest hover:text-slate-900 transition-colors">
@@ -292,24 +292,24 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
   return (
     <div className="fixed inset-0 bg-slate-50 z-50 flex flex-col font-sans" style={{ userSelect: 'none' }}>
       {/* Header */}
-      <div className="bg-white border-b-2 border-slate-300 px-8 py-5 flex items-center justify-between shrink-0 shadow-md">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
-            <i className="fas fa-edit text-xl"></i>
+      <div className="bg-white border-b-2 border-slate-300 px-4 sm:px-8 py-3 sm:py-4 flex items-center justify-between shrink-0 shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+            <i className="fas fa-edit text-lg"></i>
           </div>
           <div>
             <p className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mb-0.5">Examination Portal</p>
-            <h2 className="text-xl font-black text-slate-900 truncate max-w-md">{assessment.title}</h2>
+            <h2 className="text-base sm:text-lg font-black text-slate-900 truncate max-w-[200px] sm:max-w-md">{assessment.title}</h2>
           </div>
         </div>
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4 sm:gap-8">
           <div className="hidden md:block text-right">
             <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-0.5">Completion Status</p>
-            <p className="font-black text-xl text-slate-900">{answeredCount}<span className="text-slate-300"> / {totalQ}</span></p>
+            <p className="font-black text-lg text-slate-900">{answeredCount}<span className="text-slate-300"> / {totalQ}</span></p>
           </div>
-          <div className={`flex flex-col items-center justify-center px-6 py-2.5 rounded-2xl border-2 ${timeLeft < 60 ? 'bg-rose-50 border-rose-300 text-rose-600 animate-pulse' : 'bg-slate-900 border-slate-700 text-white shadow-lg'}`}>
+          <div className={`flex flex-col items-center justify-center px-4 sm:px-6 py-2 rounded-2xl border-2 ${timeLeft < 60 ? 'bg-rose-50 border-rose-300 text-rose-600 animate-pulse' : 'bg-slate-900 border-slate-700 text-white shadow-lg'}`}>
             <p className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-0.5">Time Remaining</p>
-            <p className="font-black text-2xl font-mono leading-none">{formatTime(timeLeft || 0)}</p>
+            <p className="font-black text-xl sm:text-2xl font-mono leading-none">{formatTime(timeLeft || 0)}</p>
           </div>
         </div>
       </div>
@@ -320,13 +320,13 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
       </div>
 
       {/* Question Area */}
-      <div className="flex-1 overflow-y-auto pt-12 pb-20 px-4 flex items-start justify-center">
+      <div className="flex-1 overflow-y-auto pt-6 sm:pt-10 pb-16 px-4 flex items-start justify-center">
         <div className="w-full max-w-3xl animate-in slide-in-from-bottom-4 duration-500">
           {/* Question info */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <span className="text-sm font-black text-indigo-600 bg-indigo-50 px-4 py-2 rounded-xl border border-indigo-100">Question {currentIdx + 1}</span>
-              <span className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest ${currentQ.type === 'MCQ' ? 'bg-sky-50 text-sky-600 border border-sky-100' : 'bg-purple-50 text-purple-600 border border-purple-100'}`}>
+              <span className="text-sm font-black text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100">Question {currentIdx + 1}</span>
+              <span className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${currentQ.type === 'MCQ' ? 'bg-sky-50 text-sky-600 border border-sky-100' : 'bg-purple-50 text-purple-600 border border-purple-100'}`}>
                 {currentQ.type}
               </span>
             </div>
@@ -336,7 +336,7 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
             </span>
           </div>
 
-          <h3 className="text-2xl md:text-4xl font-black text-slate-900 leading-tight mb-12 tracking-tight">{currentQ.prompt}</h3>
+          <h3 className="text-xl md:text-2xl font-black text-slate-900 leading-tight mb-8 tracking-tight">{currentQ.prompt}</h3>
 
           {currentQ.type === 'MCQ' ? (
             <div className="grid gap-4">
@@ -344,7 +344,7 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
                 <button
                   key={idx}
                   onClick={() => setAnswers(prev => ({ ...prev, [currentQ.id]: idx }))}
-                  className={`group w-full text-left p-6 rounded-[2rem] border-2 transition-all flex items-center gap-5 font-bold text-lg ${
+                  className={`group w-full text-left p-4 sm:p-5 rounded-2xl border-2 transition-all flex items-center gap-4 font-bold text-base ${
                     answers[currentQ.id] === idx
                       ? 'border-indigo-600 bg-white text-indigo-700 shadow-xl shadow-indigo-100 -translate-y-1'
                       : 'border-slate-100 bg-white text-slate-600 hover:border-slate-200 hover:bg-slate-50'
@@ -360,9 +360,9 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
             </div>
           ) : (
             <div className="relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-100 to-sky-100 rounded-[2.5rem] blur opacity-25 group-focus-within:opacity-50 transition duration-500"></div>
+              <div className="absolute -inset-1 bg-gradient-to-r from-indigo-100 to-sky-100 rounded-2xl blur opacity-25 group-focus-within:opacity-50 transition duration-500"></div>
               <textarea
-                className="relative w-full h-64 p-8 rounded-[2rem] bg-white border-2 border-slate-100 text-slate-900 placeholder:text-slate-300 font-bold text-xl focus:border-indigo-500 outline-none transition-all resize-none shadow-sm"
+                className="relative w-full h-48 sm:h-56 p-5 sm:p-6 rounded-2xl bg-white border-2 border-slate-100 text-slate-900 placeholder:text-slate-300 font-bold text-base focus:border-indigo-500 outline-none transition-all resize-none shadow-sm"
                 placeholder="Type your comprehensive analysis here..."
                 value={answers[currentQ.id] || ''}
                 onChange={(e) => setAnswers(prev => ({ ...prev, [currentQ.id]: e.target.value }))}
@@ -371,20 +371,20 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
           )}
 
           {/* Navigation Grid */}
-          <div className="mt-16 pt-10 border-t border-slate-100">
-            <div className="flex items-center justify-between mb-6">
+          <div className="mt-10 pt-6 border-t border-slate-100">
+            <div className="flex items-center justify-between mb-4">
               <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em]">Quick Navigator</p>
               <div className="flex items-center gap-4">
                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-indigo-600"></div><span className="text-[10px] font-black text-slate-400 uppercase">Current</span></div>
                  <div className="flex items-center gap-1.5"><div className="w-2 h-2 rounded-full bg-emerald-500"></div><span className="text-[10px] font-black text-slate-400 uppercase">Answered</span></div>
               </div>
             </div>
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-2 flex-wrap">
               {assessment.questions.map((q, i) => (
                 <button 
                   key={i} 
                   onClick={() => setCurrentIdx(i)}
-                  className={`w-12 h-12 rounded-2xl text-sm font-black transition-all border-2 ${
+                  className={`w-10 h-10 rounded-xl text-sm font-black transition-all border-2 ${
                     i === currentIdx 
                       ? 'bg-white text-indigo-600 border-indigo-600 shadow-xl shadow-indigo-100 scale-110 z-10'
                       : answers[q.id] !== undefined 
@@ -401,17 +401,17 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
       </div>
 
       {/* Footer Navigation */}
-      <div className="bg-white/80 backdrop-blur-md px-12 py-6 flex items-center justify-between shrink-0 border-t border-slate-100 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.05)]">
+      <div className="bg-white/80 backdrop-blur-md px-4 sm:px-8 py-4 flex items-center justify-between shrink-0 border-t border-slate-100 shadow-[0_-10px_30px_-15px_rgba(0,0,0,0.05)]">
         <button
           onClick={() => setCurrentIdx(Math.max(0, currentIdx - 1))}
           disabled={currentIdx === 0}
-          className="flex items-center gap-3 px-8 py-4 rounded-2xl text-slate-400 font-black text-sm uppercase tracking-widest hover:text-slate-900 hover:bg-slate-50 disabled:opacity-20 transition-all"
+          className="flex items-center gap-2 px-4 sm:px-6 py-3 rounded-xl text-slate-400 font-black text-sm uppercase tracking-widest hover:text-slate-900 hover:bg-slate-50 disabled:opacity-20 transition-all"
         >
           <i className="fas fa-arrow-left text-xs"></i>
-          Back
+          <span className="hidden sm:inline">Back</span>
         </button>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4">
           <div className="hidden lg:flex flex-col items-end">
              <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Active Progress</p>
              <p className="text-sm font-black text-slate-400">Packet {currentIdx + 1} <span className="text-slate-200">/ {totalQ}</span></p>
@@ -419,15 +419,16 @@ const QuizTaking = ({ user, assessment, submissionId, onSubmit, onCancel, onQuiz
           {currentIdx === totalQ - 1 ? (
             <button
               onClick={() => setPhase(PHASE.SUBMIT_CONFIRM)}
-              className="bg-indigo-600 text-white px-12 py-5 rounded-[1.5rem] font-black text-lg shadow-2xl shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center gap-3 group"
+              className="bg-indigo-600 text-white px-6 sm:px-10 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl font-black text-base shadow-2xl shadow-indigo-200 hover:bg-indigo-700 transition-all flex items-center gap-3 group"
             >
               <i className="fas fa-paper-plane text-sm group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i> 
-              Complete Process
+              <span className="hidden sm:inline">Complete Process</span>
+              <span className="sm:hidden">Submit</span>
             </button>
           ) : (
             <button
               onClick={() => setCurrentIdx(Math.min(totalQ - 1, currentIdx + 1))}
-              className="bg-slate-900 text-white px-12 py-5 rounded-[1.5rem] font-black text-lg hover:bg-black transition-all flex items-center gap-3 group shadow-xl shadow-slate-200"
+              className="bg-slate-900 text-white px-6 sm:px-10 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl font-black text-base hover:bg-black transition-all flex items-center gap-3 group shadow-xl shadow-slate-200"
             >
               Continue
               <i className="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
